@@ -40,14 +40,17 @@
 
 Use a configuração padrão como referência e, em seguida, varie os parâmetros para avaliar seus efeitos.
 
-- [ ] **Arquivo pequeno:** testar **10 KB** e repetir com **20 KB**.
-- [ ] **Arquivo médio:** testar **1 MB** e repetir com **5 MB**.
-- [ ] **Arquivo grande:** testar **10 MB** e repetir com **20 MB**.
-- [ ] Repetir os testes com blocos de **4096 bytes (4 KB)** e comparar com o padrão de 1024 bytes.
-- [ ] Repetir os testes com **4 Peers** e comparar com a configuração mínima de 2.
-- [ ] Para cada execução, registrar o tamanho do arquivo, o tamanho dos blocos, o número de Peers, o resultado da integridade e observações relevantes.
-- [ ] Nos testes com 4 Peers, verificar se os Leecher que já receberam blocos também os servem para os demais.
-- [ ] Nos arquivos maiores, conferir pelos logs que os blocos foram recebidos das fontes esperadas.
+Executados com `python estudos_de_caso.py` (cada Peer em um processo separado). Resultados em
+[resultados/execucao1.txt](resultados/execucao1.txt). Topologia com 4 Peers: P1 Seeder; P2 → P1; P3 → P1, P2; P4 → P2, P3.
+
+- [X] **Arquivo pequeno:** testar **10 KB** e repetir com **20 KB**.
+- [X] **Arquivo médio:** testar **1 MB** e repetir com **5 MB**.
+- [ ] **Arquivo grande:** testar **10 MB** (feito) e repetir com **20 MB** (pendente: a execução parou antes do 20 MB por um limite de espera do script, já corrigido; rodar `python estudos_de_caso.py --files C-20MB --work-dir C:\Temp\p2p`).
+- [X] Repetir os testes com blocos de **4096 bytes (4 KB)** e comparar com o padrão de 1024 bytes (a partir de 1 MB, 4 KB foi 2,4× a 5,6× mais rápido, por exigir 4× menos conexões; ex.: 10 MB com 2 Peers: 172 s → 36 s; em 10–20 KB a diferença é desprezível).
+- [X] Repetir os testes com **4 Peers** e comparar com a configuração mínima de 2 (com 4 Peers o tempo total sobe, pois os Leechers dividem o Seeder na mesma máquina; ex.: 10 MB/1 KB: 172 s → 220 s).
+- [X] Para cada execução, registrar o tamanho do arquivo, o tamanho dos blocos, o número de Peers, o resultado da integridade e observações relevantes (SHA-256 e tamanho conferidos em todas as 20 execuções: todos OK).
+- [X] Nos testes com 4 Peers, verificar se os Leecher que já receberam blocos também os servem para os demais (P4 não conhece o Seeder e recebeu 100% dos blocos de P2/P3; ex.: 10 MB/1 KB: P2=885, P3=9355).
+- [X] Nos arquivos maiores, conferir pelos logs que os blocos foram recebidos das fontes esperadas (P2 e P3 só de P1; P4 só de P2 e P3).
 - [X] Investigar e corrigir falhas de transferência, divergências de checksum ou erros de remontagem encontrados (validação coberta por testes).
 
 ## 5. Relatório e entrega

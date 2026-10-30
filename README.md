@@ -54,3 +54,21 @@ validacao de tamanho e checksum.
 ```powershell
 python -m unittest -v
 ```
+
+## Estudos de caso
+
+```powershell
+python estudos_de_caso.py --repeat 3 --work-dir C:\Temp\p2p
+```
+
+O script executa as 24 combinacoes do enunciado (arquivos de 10 KB a 20 MB,
+blocos de 1024 e 4096 bytes, 2 e 4 Peers), cada Peer em um processo separado.
+Para cada execucao ele mede o tempo de download, confere tamanho e SHA-256 e
+conta nos logs de qual Peer veio cada bloco. Os resultados ficam em
+`resultados/` (`resultados.csv`, `resultados.json` e `resumo.md`) e os logs de
+cada Peer em `--work-dir`. Use um `--work-dir` com caminho curto: no Windows,
+`peer_data/<sha256>/block-*.bin` pode ultrapassar o limite de 260 caracteres.
+
+Topologia com 4 Peers: P1 e o Seeder; P2 tem P1 como vizinho; P3 tem P1 e P2;
+P4 tem P2 e P3. Como P4 nao conhece o Seeder, todos os blocos que recebe foram
+repassados por Leechers.
